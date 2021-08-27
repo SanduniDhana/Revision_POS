@@ -67,4 +67,7 @@ public class ItemDaoImpl {
         }
         return allItems;
     }
+
+    public boolean updateItemQtyOnHand(String itemCode, int qty) {
+    }
 }
