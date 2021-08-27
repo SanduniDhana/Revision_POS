@@ -42,12 +42,14 @@ public class CustomerDaoImpl {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery("SELECT * FROM Customer where id=?");
+        PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Customer where id=?");
+        pstm.setObject(1, id);
+        rst = pstm.executeQuery();
         if (rst.next()) {
             return new Customer(rst.getString("id"), rst.getString("name"), rst.getString("address"));
         }
         return null;
     }
-
     public ArrayList<Customer> getAllCustomers() throws Exception {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement stm = connection.createStatement();
