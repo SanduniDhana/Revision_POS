@@ -2,6 +2,7 @@ package lk.ijse.pos.dao;
 
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.model.Customer;
+import lk.ijse.pos.model.Item;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,13 +33,7 @@ public class CustomerDaoImpl implements CustomerDAO{
     @Override
     public Customer searchCustomer(String id) throws Exception {
 
-        ResultSet rst = stm.execute("SELECT * FROM Customer where id=?");
-        PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Customer where id=?");
-        pstm.setObject(1, id);
-        rst = pstm.executeQuery();
-        if (rst.next()) {
-            return new Customer(rst.getString("id"), rst.getString("name"), rst.getString("address"));
-        }
+
         return null;
     }
 
@@ -46,15 +41,15 @@ public class CustomerDaoImpl implements CustomerDAO{
 
     @Override
     public ArrayList<Customer> getAllCustomer() throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery("SELECT * FROM Customer");
-        ArrayList<Customer> alCustomers = new ArrayList<>();
-        while (rst.next()) {
-            Customer customer = new Customer(rst.getString(1), rst.getString(2), rst.getString(3));
-            alCustomers.add(customer);
+        ResultSet resultSet = CrudUtil.execute("SELECT * FROM Customer");
+        ArrayList<Customer> customerList = new ArrayList<>();
+        while (resultSet.next()) {
+            customerList.add(
+                    new Customer(resultSet.getString(1), resultSet.getString(2),
+                            resultSet.getString(3))
+            );
         }
-        return alCustomers;
+        return customerList;
     }
 
 
