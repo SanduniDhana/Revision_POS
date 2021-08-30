@@ -13,6 +13,6 @@ public class OrderDetailsDaoImpl implements OrderDetailsDAO{
     public boolean addOrderDetails(OrderDetails oDetails) throws Exception {
         return CrudUtil.execute("INSERT INTO OrderDetails VALUES (?,?,?,?)",
                 oDetails.getOrderId(),oDetails.getItemCode(),oDetails.getQty(),oDetails.getUnitPrice());
-        
+
     }
 }

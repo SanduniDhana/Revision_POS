@@ -14,14 +14,14 @@ public class CustomerDaoImpl implements CustomerDAO{
     @Override
     public boolean addCustomer(Customer customer) throws Exception {
         return CrudUtil.execute("Insert into Customer values(?,?,?)",
-                customer.getcID(),customer.getName(),customer.getAddress());
+                customer.getName(),customer.getAddress(),customer.getcID());
 
     }
 
     @Override
     public boolean updateCustomer(Customer customer) throws Exception {
         return CrudUtil.execute("UPDATE Customer SET name=?, address=? WHERE id=?",
-                customer.getcID(),customer.getName(),customer.getAddress());
+                customer.getName(),customer.getAddress(),customer.getcID());
     }
 
     @Override
@@ -31,9 +31,8 @@ public class CustomerDaoImpl implements CustomerDAO{
 
     @Override
     public Customer searchCustomer(String id) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery("SELECT * FROM Customer where id=?");
+
+        ResultSet rst = stm.execute("SELECT * FROM Customer where id=?");
         PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Customer where id=?");
         pstm.setObject(1, id);
         rst = pstm.executeQuery();
