@@ -21,11 +21,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import lk.ijse.pos.dao.CustomerDaoImpl;
+import lk.ijse.pos.dao.*;
 
-import lk.ijse.pos.dao.ItemDaoImpl;
-import lk.ijse.pos.dao.OrderDaoImpl;
-import lk.ijse.pos.dao.OrderDetailsDaoImpl;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.model.Customer;
 import lk.ijse.pos.model.Item;
@@ -54,7 +51,9 @@ import java.util.logging.Logger;
  **/
 
 public class OrderFormController implements Initializable {
-
+    CustomerDAO customerDAO = new CustomerDaoImpl();
+    ItemDAO itemDAO = new ItemDaoImpl();
+    OrderDAO orderDAO = new OrderDaoImpl();
     @FXML
     private JFXComboBox<String> cmbCustomerID;
     @FXML
@@ -127,7 +126,7 @@ public class OrderFormController implements Initializable {
                 }
 
                 try {
-                    CustomerDaoImpl customerDAO = new CustomerDaoImpl();
+
                     Customer customer = customerDAO.searchCustomer(customerID);
                     if (customer != null) {
                         txtCustomerName.setText(customer.getName());
@@ -157,7 +156,7 @@ public class OrderFormController implements Initializable {
                 }
 
                 try {
-                    ItemDaoImpl itemDAO = new ItemDaoImpl();
+
                     Item item = itemDAO.searchItem(itemCode);
                     if (item != null) {
                         String description = item.getDescription();
@@ -230,9 +229,9 @@ public class OrderFormController implements Initializable {
 
     private void loadAllData() throws Exception {
 
-        CustomerDaoImpl dao = new CustomerDaoImpl();
 
-        ArrayList<Customer> allCustomers = dao.getAllCustomers();
+
+        ArrayList<Customer> allCustomers = customerDAO.getAllCustomer();
 
         cmbCustomerID.getItems().removeAll(cmbCustomerID.getItems());
 
@@ -316,7 +315,7 @@ public class OrderFormController implements Initializable {
             connection.setAutoCommit(false);
 
 
-                    OrderDaoImpl orderDAO = new OrderDaoImpl();
+
             Orders orders = new Orders(txtOrderID.getText(),parseDate(txtOrderDate.getEditor().getText()),cmbCustomerID.getSelectionModel().getSelectedItem());
             boolean b1 = orderDAO.addOrder(orders);
 

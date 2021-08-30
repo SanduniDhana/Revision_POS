@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 
 
-public class OrderDaoImpl {
+public class OrderDaoImpl implements OrderDAO{
 
-
-        public boolean addOrder(Orders orders) throws Exception {
+    @Override
+    public boolean addOrder(Orders orders) throws Exception {
             Connection connection = DBConnection.getInstance().getConnection();
             String sql = "INSERT INTO Orders VALUES (?,?,?)";
             PreparedStatement pstm = connection.prepareStatement(sql);
@@ -22,19 +22,24 @@ public class OrderDaoImpl {
             return (pstm.executeUpdate() > 0);
         }
 
-        public boolean deleteOrder() {
-            throw new UnsupportedOperationException("This feature is not supported yet");
-        }
+    @Override
+    public boolean updateOrder(Orders orders) throws Exception {
+        return false;
+    }
 
-        public boolean updateOrder() {
-            throw new UnsupportedOperationException("This feature is not supported yet");
-        }
+    @Override
+    public boolean deleteOrder(String id) throws Exception {
+        return false;
+    }
 
-        public Orders searchOrder() {
-            throw new UnsupportedOperationException("This feature is not supported yet");
-        }
+    @Override
+    public Orders searchOrder(String id) throws Exception {
+        return null;
+    }
 
-        public ArrayList<Orders> getAllOrders() {
+
+      @Override
+       public ArrayList<Orders> getAllOrders() {
             throw new UnsupportedOperationException("This feature is not supported yet");
         }
 

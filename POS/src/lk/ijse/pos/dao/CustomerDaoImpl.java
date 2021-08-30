@@ -10,8 +10,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 
-public class CustomerDaoImpl {
-
+public class CustomerDaoImpl implements CustomerDAO{
+    @Override
     public boolean addCustomer(Customer customer) throws Exception {
         Connection connection = DBConnection.getInstance().getConnection();
         PreparedStatement pstm = connection.prepareStatement("INSERT INTO Customer VALUES (?,?,?,?)");
@@ -22,6 +22,7 @@ public class CustomerDaoImpl {
         return (pstm.executeUpdate() > 0);
     }
 
+    @Override
     public boolean updateCustomer(Customer customer) throws Exception {
         Connection connection = DBConnection.getInstance().getConnection();
         PreparedStatement pstm = connection.prepareStatement("UPDATE Customer SET name=?, address=? WHERE id=?");
@@ -31,6 +32,7 @@ public class CustomerDaoImpl {
         return (pstm.executeUpdate() > 0);
     }
 
+    @Override
     public boolean deleteCustomer(String id) throws Exception {
         Connection connection = DBConnection.getInstance().getConnection();
         PreparedStatement pstm = connection.prepareStatement("DELETE FROM Customer WHERE id=?");
@@ -38,6 +40,7 @@ public class CustomerDaoImpl {
         return (pstm.executeUpdate() > 0);
     }
 
+    @Override
     public Customer searchCustomer(String id) throws Exception {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement stm = connection.createStatement();
@@ -50,7 +53,11 @@ public class CustomerDaoImpl {
         }
         return null;
     }
-    public ArrayList<Customer> getAllCustomers() throws Exception {
+
+
+
+    @Override
+    public ArrayList<Customer> getAllCustomer() throws Exception {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery("SELECT * FROM Customer");

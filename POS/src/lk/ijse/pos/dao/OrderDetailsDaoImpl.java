@@ -6,7 +6,10 @@ import lk.ijse.pos.model.OrderDetails;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-public class OrderDetailsDaoImpl {
+
+public class OrderDetailsDaoImpl implements OrderDetailsDAO{
+
+    @Override
     public boolean addOrderDetails(OrderDetails oDetails) throws Exception {
         Connection connection = DBConnection.getInstance().getConnection();
         PreparedStatement pstm = connection.prepareStatement("INSERT INTO OrderDetails VALUES (?,?,?,?)");

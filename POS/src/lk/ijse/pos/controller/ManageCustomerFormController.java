@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.pos.AppInitializer;
+import lk.ijse.pos.dao.CustomerDAO;
 import lk.ijse.pos.dao.CustomerDaoImpl;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.model.Customer;
@@ -51,6 +52,8 @@ public class ManageCustomerFormController implements Initializable {
     private JFXTextField txtCustomerAddress;
     @FXML
     private TableView<CustomerTM> tblCustomers;
+
+    CustomerDAO customerDAO = new CustomerDaoImpl();
 
     private void loadAllCustomers() {
 
@@ -124,7 +127,7 @@ public class ManageCustomerFormController implements Initializable {
 
             try {
 
-                CustomerDaoImpl customerDAO = new CustomerDaoImpl();
+
                 boolean b = customerDAO.deleteCustomer(customerID);
 
                 if (b) {
@@ -161,8 +164,8 @@ public class ManageCustomerFormController implements Initializable {
         if (addnew) {
             try {
                 /* Add Operation*/
-                CustomerDaoImpl dao = new CustomerDaoImpl();
-                boolean b = dao.addCustomer(new Customer(txtCustomerId.getText(), txtCustomerName.getText(), txtCustomerAddress.getText()));
+
+                boolean b = customerDAO.addCustomer(new Customer(txtCustomerId.getText(), txtCustomerName.getText(), txtCustomerAddress.getText()));
                 if (b) {
                     loadAllCustomers();
                 } else {
@@ -175,8 +178,8 @@ public class ManageCustomerFormController implements Initializable {
         } else {
             try {
                 //Update Operation
-                CustomerDaoImpl dao = new CustomerDaoImpl();
-                boolean b = dao.updateCustomer(new Customer(txtCustomerId.getText(), txtCustomerName.getText(), txtCustomerAddress.getText()));
+
+                boolean b = customerDAO.updateCustomer(new Customer(txtCustomerId.getText(), txtCustomerName.getText(), txtCustomerAddress.getText()));
                 if (b) {
                     loadAllCustomers();
                 } else {

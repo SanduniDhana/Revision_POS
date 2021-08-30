@@ -9,7 +9,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class ItemDaoImpl {
+public class ItemDaoImpl implements ItemDAO{
+    @Override
     public boolean addItem(Item item) throws Exception {
         Connection connection = DBConnection.getInstance().getConnection();
         PreparedStatement pstm = connection.prepareStatement("INSERT INTO Item VALUES (?,?,?,?)");
@@ -19,7 +20,7 @@ public class ItemDaoImpl {
         pstm.setObject(4, item.getQtyOnHand());
         return (pstm.executeUpdate() > 0);
     }
-
+    @Override
     public boolean deleteItem(String code) throws Exception {
         Connection connection = DBConnection.getInstance().getConnection();
         PreparedStatement pstm = connection.prepareStatement("DELETE FROM Item WHERE code=?");
@@ -27,7 +28,7 @@ public class ItemDaoImpl {
         return (pstm.executeUpdate() > 0);
     }
 
-
+    @Override
     public boolean updateItem(Item item) throws Exception {
         Connection connection = DBConnection.getInstance().getConnection();
         PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?");
@@ -38,7 +39,7 @@ public class ItemDaoImpl {
         return (pstm.executeUpdate() > 0);
     }
 
-
+    @Override
     public Item searchItem(String code) throws Exception {
         Connection connection = DBConnection.getInstance().getConnection();
         PreparedStatement stm = connection.prepareStatement("SELECT * FROM Item where code=?");
@@ -53,6 +54,8 @@ public class ItemDaoImpl {
         return null;
     }
 
+
+    @Override
     public ArrayList<Item> getAllItems() throws Exception {
         Connection connection = DBConnection.getInstance().getConnection();
         Statement stm = connection.createStatement();
@@ -72,7 +75,7 @@ public class ItemDaoImpl {
 
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET qtyOnHand=? WHERE code=?");
-            pstm.setObject(1,qtyOnHand);
+            pstm.setObject(1, qtyOnHand);
             pstm.setObject(2, code);
             return (pstm.executeUpdate() > 0);
     }

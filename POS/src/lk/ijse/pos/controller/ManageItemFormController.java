@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.pos.AppInitializer;
+import lk.ijse.pos.dao.ItemDAO;
 import lk.ijse.pos.dao.ItemDaoImpl;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.model.Item;
@@ -55,13 +56,14 @@ public class ManageItemFormController implements Initializable{
     private AnchorPane root;
     @FXML
     private TableView<ItemTM> tblItems;
+    ItemDAO itemDAO= new ItemDaoImpl();
 
     private boolean addNew = true;
 
     private void loadAllItems(){
 
         try {
-            ItemDaoImpl itemDAO= new ItemDaoImpl();
+
             ArrayList<Item> allItems=itemDAO.getAllItems();
             ArrayList<ItemTM>allItemForTable=new ArrayList<>();
 
@@ -146,8 +148,8 @@ public class ManageItemFormController implements Initializable{
             try {
 
 
-                ItemDaoImpl dao = new ItemDaoImpl();
-                boolean b = dao.addItem(new Item(txtItemCode.getText(), txtDescription.getText(),new BigDecimal(txtUnitPrice.getText()),Integer.parseInt(txtQty.getText()) ));
+
+                boolean b = itemDAO.addItem(new Item(txtItemCode.getText(), txtDescription.getText(),new BigDecimal(txtUnitPrice.getText()),Integer.parseInt(txtQty.getText()) ));
                 if (b) {
                     loadAllItems();
                 } else {
@@ -165,8 +167,8 @@ public class ManageItemFormController implements Initializable{
 
             try {
 
-                ItemDaoImpl dao = new ItemDaoImpl();
-                boolean b = dao.updateItem(new Item(txtItemCode.getText(), txtDescription.getText(), new BigDecimal(txtUnitPrice.getText()),Integer.parseInt(txtQty.getText())));
+
+                boolean b = itemDAO.updateItem(new Item(txtItemCode.getText(), txtDescription.getText(), new BigDecimal(txtUnitPrice.getText()),Integer.parseInt(txtQty.getText())));
                 if (b) {
                     loadAllItems();
                 } else {
@@ -196,7 +198,7 @@ public class ManageItemFormController implements Initializable{
 
             try {
 
-                ItemDaoImpl itemDAO = new ItemDaoImpl();
+
                 boolean b = itemDAO.deleteItem(code);
 
                 if (b) {
