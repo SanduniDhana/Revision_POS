@@ -11,12 +11,8 @@ public class OrderDetailsDaoImpl implements OrderDetailsDAO{
 
     @Override
     public boolean addOrderDetails(OrderDetails oDetails) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("INSERT INTO OrderDetails VALUES (?,?,?,?)");
-        pstm.setObject(1, oDetails.getOrderId());
-        pstm.setObject(2, oDetails.getItemCode());
-        pstm.setObject(3, oDetails.getQty());
-        pstm.setObject(4, oDetails.getUnitPrice());
-        return (pstm.executeUpdate() > 0);
+        return CrudUtil.execute("INSERT INTO OrderDetails VALUES (?,?,?,?)",
+                oDetails.getOrderId(),oDetails.getItemCode(),oDetails.getQty(),oDetails.getUnitPrice());
+        
     }
 }

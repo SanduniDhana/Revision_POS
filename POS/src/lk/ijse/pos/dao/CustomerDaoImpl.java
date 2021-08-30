@@ -13,31 +13,20 @@ import java.util.ArrayList;
 public class CustomerDaoImpl implements CustomerDAO{
     @Override
     public boolean addCustomer(Customer customer) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("INSERT INTO Customer VALUES (?,?,?,?)");
-        pstm.setObject(1, customer.getcID());
-        pstm.setObject(2, customer.getName());
-        pstm.setObject(3, customer.getAddress());
-        pstm.setObject(4, 0);
-        return (pstm.executeUpdate() > 0);
+        return CrudUtil.execute("Insert into Customer values(?,?,?)",
+                customer.getcID(),customer.getName(),customer.getAddress());
+
     }
 
     @Override
     public boolean updateCustomer(Customer customer) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("UPDATE Customer SET name=?, address=? WHERE id=?");
-        pstm.setObject(1, customer.getName());
-        pstm.setObject(2, customer.getAddress());
-        pstm.setObject(3, customer.getcID());
-        return (pstm.executeUpdate() > 0);
+        return CrudUtil.execute("UPDATE Customer SET name=?, address=? WHERE id=?",
+                customer.getcID(),customer.getName(),customer.getAddress());
     }
 
     @Override
     public boolean deleteCustomer(String id) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("DELETE FROM Customer WHERE id=?");
-        pstm.setObject(1, id);
-        return (pstm.executeUpdate() > 0);
+        return CrudUtil.execute("DELETE FROM Customer WHERE id=?",id);
     }
 
     @Override

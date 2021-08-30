@@ -13,13 +13,9 @@ public class OrderDaoImpl implements OrderDAO{
 
     @Override
     public boolean addOrder(Orders orders) throws Exception {
-            Connection connection = DBConnection.getInstance().getConnection();
-            String sql = "INSERT INTO Orders VALUES (?,?,?)";
-            PreparedStatement pstm = connection.prepareStatement(sql);
-            pstm.setObject(1, orders.getId());
-            pstm.setObject(2, orders.getDate());
-            pstm.setObject(3, orders.getCustomerId());
-            return (pstm.executeUpdate() > 0);
+        return CrudUtil.execute("INSERT INTO Orders VALUES (?,?,?)",
+                orders.getCustomerId(),orders.getId(),orders.getDate());
+
         }
 
     @Override

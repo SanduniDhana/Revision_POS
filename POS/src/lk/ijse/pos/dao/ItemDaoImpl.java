@@ -12,31 +12,21 @@ import java.util.ArrayList;
 public class ItemDaoImpl implements ItemDAO{
     @Override
     public boolean addItem(Item item) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("INSERT INTO Item VALUES (?,?,?,?)");
-        pstm.setObject(1, item.getCode());
-        pstm.setObject(2, item.getDescription());
-        pstm.setObject(3, item.getUnitPrice());
-        pstm.setObject(4, item.getQtyOnHand());
-        return (pstm.executeUpdate() > 0);
+        return CrudUtil.execute("INSERT INTO Item VALUES (?,?,?,?)",
+                item.getCode(),item.getDescription(),item.getQtyOnHand(),item.getUnitPrice());
+
     }
     @Override
     public boolean deleteItem(String code) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("DELETE FROM Item WHERE code=?");
-        pstm.setObject(1, code);
-        return (pstm.executeUpdate() > 0);
+        return CrudUtil.execute("DELETE FROM Item WHERE code=?",code);
+
     }
 
     @Override
     public boolean updateItem(Item item) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?");
-        pstm.setObject(1, item.getDescription());
-        pstm.setObject(2, item.getUnitPrice());
-        pstm.setObject(3, item.getQtyOnHand());
-        pstm.setObject(4, item.getCode());
-        return (pstm.executeUpdate() > 0);
+        return CrudUtil.execute("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?",
+                item.getCode(),item.getDescription(),item.getQtyOnHand(),item.getUnitPrice());
+
     }
 
     @Override
